@@ -23,13 +23,13 @@ export default async function Index() {
   }
 
   return (
-    <div className="flex flex-col items-center pt-16">
+    <div className="flex flex-col items-center pt-9">
       <div className="flex flex-col lg:flex-row items-center gap-8 p-8 max-w-6xl w-full">
         <div className="flex flex-col space-y-4 lg:w-1/2 w-full">
-          <h1 className="text-5xl font-bold leading-tight">
+          <h1 className="text-5xl font-bold leading-tight text-foreground">
             Look professional. <br /> Stand out online.
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="text-muted-foreground text-lg">
             Generate stunning, high-resolution AI headshots in minutes.
             Perfect for LinkedIn, resumes, team pages, and personal branding.
           </p>
@@ -39,13 +39,13 @@ export default async function Index() {
                 Create Your Headshots
               </Button>
             </Link>
-            <p className="text-sm text-gray-500 italic">
+            <p className="text-sm text-muted-foreground italic">
               Powered by AI. Loved by professionals worldwide.
             </p>
           </div>
-          <div className="mt-4 text-gray-500">
+          <div className="mt-4 text-muted-foreground">
             <span>Already have an account? </span>
-            <Link className="text-blue-600 hover:underline" href="/login">
+            <Link className="text-primary hover:underline" href="/login">
               Sign In
             </Link>
           </div>

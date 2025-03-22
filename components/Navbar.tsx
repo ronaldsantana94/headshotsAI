@@ -4,7 +4,6 @@ import { cookies } from "next/headers";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -14,11 +13,12 @@ import { Button } from "./ui/button";
 import React from "react";
 import { Database } from "@/types/supabase";
 import ClientSideCredits from "./realtime/ClientSideCredits";
+import { ThemeToggle } from "./ThemeToggle";
+import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
 const stripeIsConfigured = process.env.NEXT_PUBLIC_STRIPE_IS_ENABLED === "true";
-
 const packsIsEnabled = process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
 
 export const revalidate = 0;
@@ -37,12 +37,20 @@ export default async function Navbar() {
     .single();
 
   return (
-    <div className="flex w-full px-4 lg:px-40 py-4 items-center border-b text-center gap-8 justify-between">
-      <div className="flex gap-2 h-full">
-        <Link href="/">
-          <h2 className="font-bold">HeadshotsAI</h2>
+    <div className="w-full px-4 lg:px-40 py-4 flex items-center justify-between gap-8 border-b border-border bg-background shadow-sm text-foreground dark:border-neutral-800">
+      <div className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/logo.png"
+            alt="HeadshotsAI Logo"
+            width={32}
+            height={32}
+            className="rounded-full"
+          />
+          <span className="font-bold text-lg">HeadshotsAI</span>
         </Link>
       </div>
+
       {user && (
         <div className="hidden lg:flex flex-row gap-2">
           <Link href="/overview">
@@ -60,17 +68,22 @@ export default async function Navbar() {
           )}
         </div>
       )}
-      <div className="flex gap-4 lg:ml-auto">
+
+      <div className="flex gap-4 lg:ml-auto items-center">
+        <ThemeToggle />
+
         {!user && (
           <Link href="/login">
             <Button variant={"ghost"}>Login / Signup</Button>
           </Link>
         )}
+
         {user && (
           <div className="flex flex-row gap-4 text-center align-middle justify-center">
             {stripeIsConfigured && (
               <ClientSideCredits creditsRow={credits ? credits : null} />
             )}
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild className="cursor-pointer">
                 <AvatarIcon height={24} width={24} className="text-primary" />
