@@ -1,11 +1,5 @@
 {
-  "name": "headshots-ai-by-astria",
-  "author": {
-    "name": "Astria",
-    "email": "support@astria.ai"
-  },
-  "license": "MIT",
-  "private": true,
+
   "scripts": {
     "dev": "next dev",
     "build": "next build",
