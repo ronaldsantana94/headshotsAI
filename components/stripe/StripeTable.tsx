@@ -41,7 +41,7 @@ const StripePricingTable = ({ user }: Props) => {
         publishable-key="pk_test_51R3w1YKBMhuHWI4W2nQMd5HFJwu7QOyiRqIg4DuNGDyj4Q4aaBYMapkB5dsgEWqjvoVgud9jGKYOWlAEpnngurAn00P9ps7e8U"
         client-reference-id={user.id}
         customer-email={user.email || undefined}
-        success-url="http://localhost:3000/get-credits?success=true"
+        success-url= '${process.env.NEXT_PUBLIC_VERCEL_URL}/get-credits?success=true'
       />
     </div>
   );
