@@ -143,22 +143,21 @@ export async function POST(request: Request) {
   const modelId = data?.id;
 
   try {
-
-    const trainWebhook = `https://${process.env.VERCEL_URL}/astria/train-webhook`;
+    // Use NEXT_PUBLIC_APP_URL from environment, fallback to VERCEL_URL if needed
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || `https://${process.env.VERCEL_URL}`;
+  
+    const trainWebhook = `${baseUrl}/astria/train-webhook`;
     const trainWebhookWithParams = `${trainWebhook}?user_id=${user.id}&model_id=${modelId}&webhook_secret=${appWebhookSecret}`;
-
-    const promptWebhook = `https://${process.env.VERCEL_URL}/astria/prompt-webhook`;
-    const promptWebhookWithParams = `${promptWebhook}?user_id=${user.id}&&model_id=${modelId}&webhook_secret=${appWebhookSecret}`;
-
+  
+    const promptWebhook = `${baseUrl}/astria/prompt-webhook`;
+    const promptWebhookWithParams = `${promptWebhook}?user_id=${user.id}&model_id=${modelId}&webhook_secret=${appWebhookSecret}`;
+  
     const API_KEY = astriaApiKey;
     const DOMAIN = "https://api.astria.ai";
-
-    // Create a fine tuned model using Astria tune API
+  
     const tuneBody = {
       tune: {
         title: name,
-        // Hard coded tune id of Realistic Vision v5.1 from the gallery - https://www.astria.ai/gallery/tunes
-        // https://www.astria.ai/gallery/tunes/690204/prompts
         base_tune_id: 690204,
         name: type,
         branch: astriaTestModeIsOn ? "fast" : "sd15",
