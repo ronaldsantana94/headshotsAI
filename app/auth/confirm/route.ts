@@ -1,4 +1,5 @@
-// app/auth/confirm/route.ts
+// app/auth/confirm/route.ts (Good as-is)
+
 import { NextRequest, NextResponse } from "next/server";
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
@@ -14,9 +15,9 @@ export async function GET(request: NextRequest) {
   const supabase = createRouteHandlerClient({ cookies });
 
   if (token_hash && type) {
-    const { error } = await supabase.auth.verifyOtp({ 
-      token_hash, 
-      type: type as EmailOtpType
+    const { error } = await supabase.auth.verifyOtp({
+      token_hash,
+      type: type as EmailOtpType,
     });
 
     if (!error) {
@@ -27,6 +28,5 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  // If params missing, redirect to login with error.
   return NextResponse.redirect(`${requestUrl.origin}/login?error=missing_params`);
 }

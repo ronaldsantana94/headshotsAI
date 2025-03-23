@@ -22,10 +22,13 @@ export const Login = ({
   host: string | null;
   searchParams?: { [key: string]: string | string[] | undefined };
 }) => {
-  const supabase = createClientComponentClient<Database>();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isMagicLinkSent, setIsMagicLinkSent] = useState(false);
-  const { toast } = useToast();
+
+const supabase = createClientComponentClient<Database>();
+const [isSubmitting, setIsSubmitting] = useState(false);
+const [isMagicLinkSent, setIsMagicLinkSent] = useState(false);
+
+
+const { toast } = useToast();
 
   const {
     register,
@@ -39,31 +42,36 @@ export const Login = ({
   }
 
   const protocol = host?.includes("localhost") ? "http" : "https";
-  const redirectUrl = `${protocol}://${host}/auth/callback`;
 
+  // Separate redirect URLs for clarity
+  const googleRedirectUrl = `${protocol}://${host}/auth/callback`;      // Google OAuth callback
+  const magicLinkRedirectUrl = `${protocol}://${host}/auth/confirm`;    // Email Magic Link OTP
+  
+  // Google OAuth
   const signInWithGoogle = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: redirectUrl,
+        redirectTo: googleRedirectUrl,
       },
     });
-
+  
     if (error) {
       console.error("Google login error:", error.message);
     }
   };
-
+  
+  // Email Magic Link
   const signInWithMagicLink = async (email: string) => {
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: redirectUrl,
+        emailRedirectTo: magicLinkRedirectUrl,
       },
     });
-
+  
     if (error) {
-      console.log(`Error: ${error.message}`);
+      console.log(`Magic link error: ${error.message}`);
     }
   };
 
@@ -98,7 +106,7 @@ export const Login = ({
 
   return (
     <div className="flex items-center justify-center p-8">
-      <div className="flex flex-col gap-4 bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 p-4 rounded-xl max-w-sm w-full">
+      <div className="flex flex-col gap-4 bg-white dark:bg-[#1C1C1E] border border-neutral-300 dark:border-neutral-700 p-6 rounded-2xl shadow-lg max-w-sm w-full">
         <h1 className="text-xl">Welcome</h1>
         <p className="text-xs opacity-60">Sign in or create an account to get started.</p>
 
