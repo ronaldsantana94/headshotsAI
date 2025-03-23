@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-
 import { Database } from "@/types/supabase";
 import { Icons } from "./icons";
 import { useRouter } from "next/navigation";
@@ -20,21 +19,21 @@ type ModelsTableProps = {
   models: modelRowWithSamples[];
 };
 
-export default async function ModelsTable({ models }: ModelsTableProps) {
+export default function ModelsTable({ models }: ModelsTableProps) {
   const router = useRouter();
   const handleRedirect = (id: number) => {
     router.push(`/overview/models/${id}`);
   };
 
   return (
-    <div className="rounded-md border">
-      <Table className="w-full">
-        <TableHeader>
+    <div className="rounded-xl border border-border bg-white dark:bg-zinc-900 shadow-md overflow-hidden">
+      <Table className="w-full text-sm">
+        <TableHeader className="bg-zinc-100 dark:bg-zinc-800">
           <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Type</TableHead>
-            <TableHead>Samples</TableHead>
+            <TableHead className="text-zinc-700 dark:text-zinc-300">Name</TableHead>
+            <TableHead className="text-zinc-700 dark:text-zinc-300">Status</TableHead>
+            <TableHead className="text-zinc-700 dark:text-zinc-300">Type</TableHead>
+            <TableHead className="text-zinc-700 dark:text-zinc-300">Samples</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -42,34 +41,35 @@ export default async function ModelsTable({ models }: ModelsTableProps) {
             <TableRow
               key={model.modelId}
               onClick={() => handleRedirect(model.id)}
-              className="cursor-pointer h-16"
+              className="cursor-pointer h-16 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition"
             >
-              <TableCell className="font-medium">{model.name}</TableCell>
+              <TableCell className="font-medium text-zinc-800 dark:text-zinc-100">{model.name}</TableCell>
               <TableCell>
-                <div>
-                  <Badge
-                    className="flex gap-2 items-center w-min"
-                    variant={
-                      model.status === "finished" ? "default" : "secondary"
-                    }
-                  >
-                    {model.status === "processing" ? "training" : model.status }
-                    {model.status === "processing" && (
-                      <Icons.spinner className="h-4 w-4 animate-spin" />
-                    )}
-                  </Badge>
-                </div>
+                <Badge
+                  className={`flex gap-2 items-center w-min ${
+                    model.status === "finished" ? "bg-blue-600 text-white" : "bg-zinc-700 text-white"
+                  }`}
+                >
+                  {model.status === "processing" ? "training" : model.status}
+                  {model.status === "processing" && (
+                    <Icons.spinner className="h-4 w-4 animate-spin" />
+                  )}
+                </Badge>
               </TableCell>
-              <TableCell>{model.type}</TableCell>
+              <TableCell className="text-zinc-700 dark:text-zinc-300">{model.type}</TableCell>
               <TableCell>
-                <div className="flex gap-2 flex-shrink-0 items-center">
+                <div className="flex gap-2 items-center">
                   {model.samples.slice(0, 3).map((sample) => (
                     <Avatar key={sample.id}>
                       <AvatarImage src={sample.uri} className="object-cover" />
+                      <AvatarFallback>+</AvatarFallback>
                     </Avatar>
                   ))}
                   {model.samples.length > 3 && (
-                    <Badge className="rounded-full h-10" variant={"outline"}>
+                    <Badge
+                      className="rounded-full h-8 w-8 flex items-center justify-center border dark:border-zinc-600 text-sm"
+                      variant="outline"
+                    >
                       +{model.samples.length - 3}
                     </Badge>
                   )}
