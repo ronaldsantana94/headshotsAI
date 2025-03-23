@@ -31,6 +31,7 @@ import * as z from "zod";
 import { fileUploadFormSchema } from "@/types/zod";
 import { upload } from "@vercel/blob/client";
 import axios from "axios";
+import { ToastAction } from "@/components/ui/toast";
 
 type FormInput = z.infer<typeof fileUploadFormSchema>;
 
@@ -172,19 +173,13 @@ export default function TrainModelZone({ packSlug }: { packSlug: string }) {
               </a>
             </div>
           ),
-          action: {
-            label: "Close",
-            onClick: () => {},
-          },
+          action: <ToastAction altText="Close">Close</ToastAction>,
         });
       } else {
         toast({
           title: "Something went wrong!",
           description: responseMessage,
-          action: {
-            label: "Close",
-            onClick: () => {},
-          },
+          action: <ToastAction altText="Close">Close</ToastAction>,
         });
       }
     
