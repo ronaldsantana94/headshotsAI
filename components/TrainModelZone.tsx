@@ -86,7 +86,7 @@ export default function TrainModelZone({ packSlug }: { packSlug: string }) {
       const totalSize = files.reduce((acc, file) => acc + file.size, 0);
       const newSize = newFiles.reduce((acc, file) => acc + file.size, 0);
 
-      if (totalSize + newSize > 4.5 * 1024 * 1024) {
+      if (totalSize + newSize > 10.5 * 1024 * 1024) {
         toast({
           title: "Images exceed size limit",
           description:
