@@ -41,6 +41,7 @@ export default function TrainModelZone({ packSlug }: { packSlug: string }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { toast } = useToast();
   const router = useRouter();
+  const maxSizeMB = 20;
 
   const form = useForm<FormInput>({
     resolver: zodResolver(fileUploadFormSchema),
@@ -86,11 +87,10 @@ export default function TrainModelZone({ packSlug }: { packSlug: string }) {
       const totalSize = files.reduce((acc, file) => acc + file.size, 0);
       const newSize = newFiles.reduce((acc, file) => acc + file.size, 0);
 
-      if (totalSize + newSize > 10.5 * 1024 * 1024) {
+      if (totalSize + newSize > maxSizeMB * 1024 * 1024) {
         toast({
           title: "Images exceed size limit",
-          description:
-            "The total combined size of the images cannot exceed 4.5MB.",
+          description: `The total combined size of the images cannot exceed ${maxSizeMB}MB.`,
           duration: 5000,
         });
         return;
