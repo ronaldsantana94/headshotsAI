@@ -62,10 +62,14 @@ export default async function Navbar() {
             </Link>
           )}
           {stripeIsConfigured && (
-            <Link href="/get-credits">
-              <Button variant={"ghost"}>Get Credits</Button>
-            </Link>
-          )}
+  <div className="flex lg:hidden">
+    <Link href="/get-credits">
+      <Button size="sm" variant="outline" className="text-xs">
+        Get Credits
+      </Button>
+    </Link>
+  </div>
+)}
         </div>
       )}
 
