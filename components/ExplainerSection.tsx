@@ -41,7 +41,7 @@ export default function ExplainerSection() {
           </h3>
         </div>
         <p className="text-base text-muted-foreground text-center">
-          The AI magic takes ~20 minutes. You'll get an email when it's ready!
+          The AI magic takes ~10 minutes. You'll get an email when it's ready!
         </p>
         <img
           src={blur.src}

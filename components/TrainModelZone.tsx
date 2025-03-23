@@ -155,33 +155,32 @@ export default function TrainModelZone({ packSlug }: { packSlug: string }) {
       const responseMessage: string = responseData.message;
       console.error("Something went wrong! ", responseMessage);
     
-      if (responseMessage.includes("Not enough credits")) {
-        toast({
-          title: "Not enough credits",
-          description: (
-            <div className="flex flex-col sm:flex-row gap-3 items-center justify-center sm:justify-between text-center sm:text-left w-full">
-              <span className="text-sm">
-                Please purchase more credits to continue.
-              </span>
-              <a href="/get-credits">
-                <Button
-                  size="sm"
-                  className="text-white bg-blue-600 hover:bg-blue-700"
-                >
-                  Get Credits
-                </Button>
-              </a>
-            </div>
-          ),
-          action: <ToastAction altText="Close">Close</ToastAction>,
-        });
-      } else {
-        toast({
-          title: "Something went wrong!",
-          description: responseMessage,
-          action: <ToastAction altText="Close">Close</ToastAction>,
-        });
-      }
+      const messageWithButton = (
+        <div className="flex flex-col gap-4 w-full max-w-xs sm:max-w-sm text-sm">
+          <p className="text-center sm:text-left">
+            Please purchase more credits to continue.
+          </p>
+          <div className="flex justify-center sm:justify-start">
+            <a href="/get-credits">
+              <Button
+                size="sm"
+                className="text-white bg-blue-600 hover:bg-blue-700 w-full"
+              >
+                Get Credits
+              </Button>
+            </a>
+          </div>
+        </div>
+      );
+    
+      toast({
+        title: "Not enough credits",
+        description: responseMessage.includes("Not enough credits")
+          ? messageWithButton
+          : responseMessage,
+        // No auto-dismiss
+        duration: 10000,
+      });
     
       return;
     }
@@ -189,7 +188,7 @@ export default function TrainModelZone({ packSlug }: { packSlug: string }) {
     toast({
       title: "Model queued for training",
       description:
-        "The model was queued for training. You will receive an email when the model is ready to use.",
+        "Your model is now in the queue. This usually takes 10–15 minutes. Come back soon to view the results.",
       duration: 5000,
     });
 
